@@ -39,13 +39,14 @@
 
 <?php include("header.php") ?>
 
-<?php
-                $sql = "SELECT * FROM posts";
-                $statement = $connection->prepare($sql);
-                $statement->execute();
-                $statement->setFetchMode(PDO::FETCH_ASSOC);
-                $posts = $statement->fetchAll();
-?>
+    <?php
+        $sql = "SELECT * FROM posts";
+        $statement = $connection->prepare($sql);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $posts = $statement->fetchAll();
+        // var_dump($posts);
+    ?>
 
 
 <main role="main" class="container">
@@ -54,17 +55,19 @@
 
         <div class="col-sm-8 blog-main">
 
-<?php
-foreach ($posts as $post) {
-?>
+            <?php
+            foreach ($posts as $post) {
+            ?>
+
             <div class="blog-post">
                 <h2 class="blog-post-title"><a href="single-post.php?post_id= <?php echo($post['id']) ?> "><?php echo($post['Title']); ?></a></h2>
                 <p class="blog-post-meta"><?php echo $post['Created_at']?> <a href="#"><?php echo $post['Autor']?></a></p>
                 <p><?php echo $post['Body']    ?></p>
             </div><!-- /.blog-post -->
- <?php
-}
-?>
+            
+            <?php
+            }
+            ?>
 
             <nav class="blog-pagination">
                 <a class="btn btn-outline-primary" href="#">Older</a>

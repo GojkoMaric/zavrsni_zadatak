@@ -1,3 +1,24 @@
+<?php
+    $servername = "127.0.0.1";
+    $username = "root";
+    $password = "vivify";
+    $dbname = "blog";
+
+    try {
+        $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch(PDOException $e)
+    {
+        echo $e->getMessage();
+    }
+
+                // $sql = "SELECT * FROM posts";
+                // $statement = $connection->prepare($sql);
+                // $statement->execute();
+                // $statement->setFetchMode(PDO::FETCH_ASSOC);
+                // $posts = $statement->fetchAll();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,80 +39,102 @@
     <link href="styles/styles.css" rel="stylesheet">
 </head>
 
+
+
 <body>
 
 <?php include("header.php") ?>
+
+
 
 <main role="main" class="container">
 
     <div class="row">
 
         <div class="col-sm-8 blog-main">
+            <?php
+                if (isset($_GET['post_id'])) {
+                $sql = "SELECT * FROM posts WHERE posts.id = {$_GET['post_id']}";
+                $statement = $connection->prepare($sql);
+                $statement->execute();
+                $statement->setFetchMode(PDO::FETCH_ASSOC);
+                $singlePost = $statement->fetch();          
+            ?>
 
-            <div class="blog-post">
-                <h2 class="blog-post-title"><a href="#">Sample blog post</a></h2>
-                <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><a href="#"><?php echo $singlePost['Title'] ?> </a></h2>
+                    <p class="blog-post-meta"><?php echo $singlePost['Created_at'] ?> by <a href="#"><?php echo $singlePost['Autor'] ?></a></p>
+                    <?php echo $singlePost['Body']; ?>
+                </div><!-- /.blog-post -->
 
-                <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>
-                <hr>
-                <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-                <blockquote>
-                    <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                </blockquote>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                <h2>Heading</h2>
-                <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-                <h3>Sub-heading</h3>
-                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                <pre><code>Example code block</code></pre>
-                <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-                <h3>Sub-heading</h3>
-                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <ul>
-                    <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                    <li>Donec id elit non mi porta gravida at eget metus.</li>
-                    <li>Nulla vitae elit libero, a pharetra augue.</li>
-                </ul>
-                <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-                <ol>
-                    <li>Vestibulum id ligula porta felis euismod semper.</li>
-                    <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-                    <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-                </ol>
-                <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
-            </div><!-- /.blog-post -->
-
-            <div class="blog-post">
-                <h2 class="blog-post-title"><a href="#">Another blog post</a></h2>
-                <p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>
-
-                <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-                <blockquote>
-                    <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                </blockquote>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            </div><!-- /.blog-post -->
-
-            <div class="blog-post">
-                <h2 class="blog-post-title"><a href="#">New feature</a></h2>
-                <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <ul>
-                    <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                    <li>Donec id elit non mi porta gravida at eget metus.</li>
-                    <li>Nulla vitae elit libero, a pharetra augue.</li>
-                </ul>
-                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-            </div><!-- /.blog-post -->
+            <?php
+                }else{
+                    echo "Post does not exist.";
+                }
+            ?>
 
             <nav class="blog-pagination">
                 <a class="btn btn-outline-primary" href="#">Older</a>
                 <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
             </nav>
 
+
+
+
+
+
+
+
+
+            <form action="create-comment.php" method="post">
+                <label>Your name</label>
+                <input type="Text" name="Autor"><br>
+                <textarea name="Text" rows='5' cols='28' placeholder="Comment"></textarea><br>
+
+                <button type="Submit">Send</button><br>
+                <input type="Hidden" name="Post_id" value="get">
+                <!-- <input type="Text" name="Text"><br> -->
+            </form>
+
+
+
+
+
+
+
+
+
+
+            <br>
+
+            <div id="hide-show">
+                <a class="btn btn-outline-primary" id='HideCom' onclick="hide()">Hide comments</a>
+            </div>
+
+            <br>
+            <div id="comments">
+            <?php 
+                $sqlCom = "SELECT * FROM comments WHERE comments.Post_id={$_GET['post_id']}";
+                $statementCom = $connection->prepare($sqlCom);
+                $statementCom->execute();
+                $statementCom->setFetchMode(PDO::FETCH_ASSOC);
+                $comments = $statementCom->fetchAll();
+                // print_r($comments);
+
+                foreach ($comments as $singleCom) {
+
+            ?>
+
+                <ul>
+                    <li><?php echo $singleCom['Autor']; ?></li>
+                    <li><?php echo $singleCom['Text']; ?></li>
+                </ul>
+                    <hr>
+                
+            <?php
+            }
+            ?>
+            </div>
         </div><!-- /.blog-main -->
 
         <?php include("sidebar.php") ?>
@@ -101,6 +144,21 @@
 </main><!-- /.container -->
 
     <?php include("footer.php") ?>
+
+<script type="text/javascript">
+
+function hide() {
+    var comms = document.getElementById("comments");
+    if(comms.classList.contains('hidden')){
+    comms.classList.remove('hidden')
+    document.getElementById("HideCom").innerHTML = "Hide comments";
+}else{
+    comms.classList.add('hidden')
+    document.getElementById("HideCom").innerHTML = "Show comments";
+}
+}
+
+</script>
 
 </body>
 </html>

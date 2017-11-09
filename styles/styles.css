@@ -13,3 +13,15 @@ h1, h2, h3, h4, h5, h6, a {
 .blog-post-title a:hover {
 	color: #b34848;
 }
+
+.comments li {
+	list-style-type:none; 
+}
+
+.comments ul li:first-child{
+	color:#b34848;
+}
+
+.hidden{
+	display:none;
+}
