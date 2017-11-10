@@ -1,6 +1,4 @@
 <?php
-    // ako su mysql username/password i ime baze na vasim racunarima drugaciji
-    // obavezno ih ovde zamenite
     $servername = "127.0.0.1";
     $username = "root";
     $password = "vivify";
@@ -14,6 +12,7 @@
     {
         echo $e->getMessage();
     }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -39,41 +38,26 @@
 
 <?php include("header.php") ?>
 
-    <?php
-        $sql = "SELECT * FROM posts";
-        $statement = $connection->prepare($sql);
-        $statement->execute();
-        $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $posts = $statement->fetchAll();
-        // var_dump($posts);
-    ?>
-
-
 <main role="main" class="container">
 
     <div class="row">
 
         <div class="col-sm-8 blog-main">
 
-            <?php
-            foreach ($posts as $post) {
-            ?>
+        <form action="submit-post.php" method="post">
+       <fieldset>
+           <label>Title</label><br/>
+           <input type="text" id="Title" name="Title"/><br>
+           <label>Autor</label><br/> 
+           <input type="text" name="Autor"><br>
+           <label for="Body">Content</label><br>
+           <textarea name="Body" rows="15" cols="50"></textarea><br>
+           <input type="submit" value="Create Post"/>
+       </fieldset>
+       </form>
 
-            <div class="blog-post">
-                <h2 class="blog-post-title"><a href="single-post.php?post_id=<?php echo($post['id']) ?> "><?php echo($post['Title']); ?></a></h2>
-                <p class="blog-post-meta"><?php echo $post['Created_at']?> <a href="#"><?php echo $post['Autor']?></a></p>
-                <p><?php echo $post['Body']    ?></p>
-            </div><!-- /.blog-post -->
-
-            <?php
-            }
-            ?>
-
-            <nav class="blog-pagination">
-                <a class="btn btn-outline-primary" href="#">Older</a>
-                <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-            </nav>
-
+           
+           </div><!-- /.novi-post -->
         </div><!-- /.blog-main -->
 
         <?php include("sidebar.php") ?>

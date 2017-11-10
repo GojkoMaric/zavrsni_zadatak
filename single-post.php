@@ -39,8 +39,6 @@
     <link href="styles/styles.css" rel="stylesheet">
 </head>
 
-
-
 <body>
 
 <?php include("header.php") ?>
@@ -78,33 +76,24 @@
                 <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
             </nav>
 
-
-
-
-
-
-
-
-
             <form action="create-comment.php" method="post">
+                <?php if(isset($_GET['error'])){
+                echo "<h2>Sva polja su obavezna</h2>" ;}
+                ?>               
                 <label>Your name</label>
-                <input type="Text" name="Autor"><br>
-                <textarea name="Text" rows='5' cols='28' placeholder="Comment"></textarea><br>
+                <input type="Text" name="Autor" 
+                <?php 
+                if(isset($_GET['error'])){
+                    echo 'class="alert alert-danger"';
+                }?>
+                ><br>
+                <textarea name="Text" rows='5' cols='28' placeholder="Comment" <?php 
+                if(isset($_GET['error'])){echo 'class="alert alert-danger"';}?>></textarea><br>
 
                 <button type="Submit">Send</button><br>
-                <input type="Hidden" name="Post_id" value="get">
+                <input type="Hidden" name="Post_id" value="<?php echo($_GET['post_id']);?>">
                 <!-- <input type="Text" name="Text"><br> -->
             </form>
-
-
-
-
-
-
-
-
-
-
             <br>
 
             <div id="hide-show">
@@ -122,12 +111,18 @@
                 // print_r($comments);
 
                 foreach ($comments as $singleCom) {
-
             ?>
 
                 <ul>
                     <li><?php echo $singleCom['Autor']; ?></li>
                     <li><?php echo $singleCom['Text']; ?></li>
+
+                    <form action="delete-comment.php" method="post">
+                    <button class="btn btn-outline-primary" type="Submit">Delete comment</button><br>
+                    <input type="Hidden" name="id" value="<?php echo $singleCom['id']; ?>">
+                    <input type="Hidden" name="Post_id" value="<?php echo($_GET['post_id']);?>">
+                    </form>
+
                 </ul>
                     <hr>
                 
